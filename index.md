@@ -7,3 +7,8 @@
 #
 layout: home
 ---
+
+{{ site.staff_members | inspect }}
+{% for staff_member in site.staff_members %}
+  {{ staff_member | inspect }}
+{% endfor %}

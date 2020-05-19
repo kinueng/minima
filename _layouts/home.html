@@ -7,6 +7,12 @@ layout: default
     <h1 class="page-heading">{{ page.title }}</h1>
   {%- endif -%}
 
+  {% assign filtered_posts = site.posts | where_exp: "post", "post.date >= site.time" %}
+  {% assign sorted-posts = filtered_posts | sort: 'post_date' | reverse %}
+  {% for event in sorted-posts limit:3 %}
+      {{ event.id | inspect }}
+  {% endfor %}
+
   {{ content }}
 
 

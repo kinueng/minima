@@ -27,6 +27,37 @@ layout: default
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
+
+    {%- comment -%} 
+      End Goal: Find all the food types for <h2>.
+
+      1.  Use map: "tasks" to gather all the tasks into a single array.
+          This will cause the loss of information for which task belongs to
+          which "name: Outside" or "name: Inside".
+
+      2.  Use map: "type" to create a list of food types ("Food", "Drinks")
+      3.  Use uniq to remove duplicate food types from the array
+    {%- endcomment -%}
+
+    {% assign all_food_types = site.data.info | map: "tasks" | map: "type" | uniq %}
+
+    {%- comment -%}
+      End Goal: Loop through all the data looking for a specific food type (Food, Drinks) 
+                and group them together
+    {%- endcomment -%}
+
+    {% for food_type in all_food_types %}
+    <h2 class="task-type">{{ food_type }}</h2>
+        <ul>
+          {% for item in site.data.info %}
+            {% for task in item.tasks %}
+                {% if task.status == 'working' and task.type == food_type %}
+                    <li>{{ item.name }}: {{ task.name }}</li>
+                {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </ul>
+    {% endfor %}
     {{ content }}
   </div>
 
